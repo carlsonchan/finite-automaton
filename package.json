@@ -1,0 +1,22 @@
+{
+  "name": "finite-automaton",
+  "version": "1.0.0",
+  "main": "finiteAutomaton.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "vitest",
+    "build": "tsc",
+    "finiteAutomaton": "yarn build && node dist/finiteAutomaton.js",
+    "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\""
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.4.0",
+    "eslint": "^10.0.3",
+    "globals": "^17.4.0",
+    "jiti": "^2.6.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.0",
+    "vitest": "^4.0.18"
+  }
+}
