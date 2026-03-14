@@ -1,6 +1,10 @@
 # Introduction
 The code in this folder provides a generic approach to define Finite State Automata. It allows you to define state, input symbols, accepting state and transition state to determine final state. To see definition of the module go to `finiteAutomaton.interface.ts`.
 
+# Pre-requisite
+- [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
+- [Node LTS](https://nodejs.org/en/download/archive/v22.22.1)
+  
 # Example usage
 You can also see the FiniteAutomaton being used in `modThree.ts`.
 ```ts
