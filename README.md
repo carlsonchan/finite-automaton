@@ -31,6 +31,5 @@ Run all tests using `yarn test`
 Run `yarn lint`
 
 # Potential improvements
-- Add more validations
 - Add test cases using different input beyond mod three procedure
 - Understand what the typical use case is to expose more functionality to the users

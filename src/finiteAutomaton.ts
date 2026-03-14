@@ -8,7 +8,7 @@ export class FiniteAutomaton implements IFiniteAutomaton {
         private readonly inputSymbols: Set<string>,
         private readonly initialState:string,
         private readonly acceptingStates: Set<string>,
-        private readonly transitionState:Map<string, Map<string,string>>
+        private readonly transitions:Map<string, Map<string,string>>
     ){
         this.validate();
         this.currentState = this.initialState;
@@ -18,32 +18,33 @@ export class FiniteAutomaton implements IFiniteAutomaton {
      * Validate the configuration based on the definition of FSM
      */
     private validate(): void{
-        const errors:string[] = [];
+        const errors:Set<string> = new Set();
 
         if(!this.states.has(this.initialState)){
-            errors.push("Initial state is not part of states");
+            errors.add("Initial state is not part of states");
         }
 
         if(!this.acceptingStates.isSubsetOf(this.states)){
-            errors.push("Accepting/final states is not a subset of states")
+            errors.add("Accepting/final states is not a subset of states")
         };
 
-        const transitionStateKeys = new Set(this.transitionState.keys());
-        if(!isEqualSet(transitionStateKeys, this.states)){
-            errors.push("States are missing or transition states are missing")
+        const transitionsKeys = new Set(this.transitions.keys());
+        if(!isEqualSet(transitionsKeys, this.states)){
+            errors.add("States are missing or transitions are missing")
         }
 
-        const allSymbols: string[] = [];
-        for (const [, transition] of this.transitionState.entries()){
-            allSymbols.push(...transition.keys());
+        for (const [, transition] of this.transitions.entries()){
+            if(!isEqualSet(new Set(transition.keys()), this.inputSymbols)){
+                errors.add("Input symbols are missing or transitions have extra symbols");
+            }
+
+            if(!new Set(transition.values()).isSubsetOf(this.states)){
+                errors.add("States in transitions have invalid states that are not part of states");
+            }
         }
 
-        if(!isEqualSet(new Set(allSymbols), this.inputSymbols)){
-            errors.push("Input symbols are missing or transition states have extra symbols");
-        }
-
-        if(errors.length > 0){
-            throw new Error(errors.join(", "));
+        if(errors.size > 0){
+            throw new Error([...errors].join(", "));
         }
     }
 
@@ -53,12 +54,17 @@ export class FiniteAutomaton implements IFiniteAutomaton {
         }
         
         for(const char of input){
-            const nextState = this.transitionState.get(this.currentState)?.get(char);
+            const nextState = this.transitions.get(this.currentState)?.get(char);
             if(!nextState){
                 throw new Error(`Unable to move from ${this.currentState} with input of ${char} to next state`);
             }
             this.currentState = nextState;
         }
+
+        if(!this.acceptingStates.has(this.currentState)){
+            throw new Error(`The current state ${this.currentState} after processing the input is not an accepting/final state`);
+        }
+        
         return this.currentState;
     }
 

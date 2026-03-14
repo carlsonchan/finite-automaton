@@ -64,6 +64,13 @@ describe('FiniteAutomaton implementing mod three', () => {
     })
 })
 
+describe('FiniteAutomaton edge case', () => {
+    test('when final state is not an accepting state then throw error', () => {
+        fsm = new FiniteAutomaton(states, inputSymbols, initialState, new Set(["S2"]), transitions);
+        expect(() => fsm.run("1")).toThrow("not an accepting/final state");
+    })
+});
+
 describe('FiniteAutomaton validation', () => {
     test('when invalid initial state is set then throw error', () => {
         expect(() => new FiniteAutomaton(states, inputSymbols, "invalidState", acceptingStates, transitions)).toThrow("Initial state is not part of states");
@@ -72,16 +79,27 @@ describe('FiniteAutomaton validation', () => {
         const newAcceptingState = new Set([...acceptingStates, "s4"]);
         expect(() => new FiniteAutomaton(states, inputSymbols, initialState, newAcceptingState, transitions)).toThrow("Accepting/final states is not a subset of states");
     })
-    test('when keys from transition state do no not match with the states then throw error', () => {
+    test('when keys from transitions do no not match with the states then throw error', () => {
         const newState = new Set([...states, "S4"]);
-        expect(() => new FiniteAutomaton(newState, inputSymbols, initialState, acceptingStates, transitions)).toThrow("States are missing or transition states are missing");
+        expect(() => new FiniteAutomaton(newState, inputSymbols, initialState, acceptingStates, transitions)).toThrow("States are missing or transitions are missing");
     })
-    test('when input symbols are missing from the transition state then throw error', () => {
+    test('when input symbols are missing from the transitions then throw error', () => {
         const newInputSymbols = new Set([...inputSymbols, "2"]);
-        expect(() => new FiniteAutomaton(states, newInputSymbols, initialState, acceptingStates, transitions)).toThrow("Input symbols are missing or transition states have extra symbols");
+        expect(() => new FiniteAutomaton(states, newInputSymbols, initialState, acceptingStates, transitions)).toThrow("Input symbols are missing or transitions have extra symbols");
+    })
+    test('when there are invalid symbol in transitions then throw error', () => {
+        const newTransitions = new Map([["S0", new Map([["0", "S0"], ["1", "S1"]])], ["S1", new Map([["0", "S2"], ["1", "S0"]])], ["S2", new Map([["0", "S1"], ["#", "S2"]])]]);
+        
+        expect(() => new FiniteAutomaton(states, inputSymbols, initialState, acceptingStates, newTransitions)).toThrow("Input symbols are missing or transitions have extra symbols");
+    })
+
+    test('when there are invalid state in transitions then throw error', () => {
+        const newTransitions = new Map([["S0", new Map([["0", "S0"], ["1", "S1"]])], ["S1", new Map([["0", "S2"], ["1", "S0"]])], ["S2", new Map([["0", "S1"], ["1", "A4"]])]]);
+        
+        expect(() => new FiniteAutomaton(states, inputSymbols, initialState, acceptingStates, newTransitions)).toThrow("States in transitions have invalid states that are not part of states");
     })
     test('when multiple input parameter are incorrect then throw all related errors', () => {
         const newInputSymbols = new Set([...inputSymbols, "2"]);
-        expect(() => new FiniteAutomaton(states, newInputSymbols, "invalidState", acceptingStates, transitions)).toThrow("Initial state is not part of states, Input symbols are missing or transition states have extra symbols");
+        expect(() => new FiniteAutomaton(states, newInputSymbols, "invalidState", acceptingStates, transitions)).toThrow("Initial state is not part of states, Input symbols are missing or transitions have extra symbols");
     })
 })
