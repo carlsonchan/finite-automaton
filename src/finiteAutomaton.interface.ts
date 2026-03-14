@@ -1,8 +1,8 @@
 export interface IFiniteAutomaton {
     /**
-     * Process a string of input symbol and return the final state
-     * @param input symbol
-     * @returns final state after processing the input
+     * Processes a string of input symbols and return the final state. If the input contains invalid symbols that are not part of input symbols, then an error will be thrown. If the final state after processing the input is not an accepting/final state, then an error will be thrown.
+     * @param input String of symbols to be processed
+     * @returns Final state after processing the input
      */
     run(input: string): string;
 

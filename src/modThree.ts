@@ -1,9 +1,9 @@
 import { FiniteAutomaton } from "./finiteAutomaton";
 
 /**
- * This function will take the input as a binary string and return the remainder 
- * @param input binary string input to be processed. The binary string should contain only 0s and 1s. Any other character will throw an error.
- * @returns the remainder. The return value will be a number between 0 and 2 inclusive.
+ * This function will take the input as a binary string and return the remainder.
+ * @param input Binary string input to be processed. The binary string should contain only 0s and 1s. Any other character will throw an error.
+ * @returns The remainder. The return value will be a number between 0 and 2 inclusive.
  */
 export function modThree(input: string): number{
     const states = new Set(["S0", "S1", "S2"]);

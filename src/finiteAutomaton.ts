@@ -56,7 +56,7 @@ export class FiniteAutomaton implements IFiniteAutomaton {
         for(const char of input){
             const nextState = this.transitions.get(this.currentState)?.get(char);
             if(!nextState){
-                throw new Error(`Unable to move from ${this.currentState} with input of ${char} to next state`);
+                throw new Error(`Unable to move from ${this.currentState} with input of ${char} to the next state`);
             }
             this.currentState = nextState;
         }
