@@ -1,5 +1,5 @@
 import { IFiniteAutomaton } from "./finiteAutomaton.interface";
-import { isEqualSet } from "./helper";
+import { isEqualSet, isInputValid } from "./helper";
 
 export class FiniteAutomaton implements IFiniteAutomaton {
     private currentState:string;
@@ -48,6 +48,10 @@ export class FiniteAutomaton implements IFiniteAutomaton {
     }
 
     run(input: string): string{
+        if(!isInputValid(input, this.inputSymbols)){
+            throw new Error(`Input ${input} contains invalid symbols that are not part of input symbols`);
+        }
+        
         for(const char of input){
             const nextState = this.transitionState.get(this.currentState)?.get(char);
             if(!nextState){

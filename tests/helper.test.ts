@@ -1,5 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { isEqualSet } from '../src/helper'
+import { isEqualSet, isInputValid } from '../src/helper'
+
+const inputSymbols = new Set(["0","1"]);
 
 describe('isEqualSet', () => {
     test('when 2 empty set are passed in then return true', () => {
@@ -24,5 +26,14 @@ describe('isEqualSet', () => {
         const set2 = new Set(["1", "2", "3"]);
         
         expect(isEqualSet(set1, set2)).toBeFalsy();
+    })
+})
+
+describe('isInputValid', () => {
+    test('when input is part of the input symbol then return true', () => {
+        expect(isInputValid("1", inputSymbols)).toBeTruthy();
+    })
+    test('when input is not part of the input symbol then return false', () => {
+       expect(isInputValid("2", inputSymbols)).toBeFalsy();
     })
 })
