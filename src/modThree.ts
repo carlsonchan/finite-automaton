@@ -17,7 +17,7 @@ export function modThree(input: string): number{
         "S2": 2
     };
 
-    const modThree = new FiniteAutomaton(states, inputSymbols, initialState, acceptingStates, transitionStates)
+    const modThree = new FiniteAutomaton(states, inputSymbols, initialState, acceptingStates, transitionStates);
     const result = modThree.run(input);
 
     return stateToRemainder[result];

@@ -14,7 +14,7 @@ const initialState = "S0";
 const acceptingStates = new Set(["S0", "S1", "S2"]);
 const transitions = new Map([["S0", new Map([["0", "S0"], ["1", "S1"]])], ["S1", new Map([["0", "S2"], ["1", "S0"]])], ["S2", new Map([["0", "S1"], ["1", "S2"]])]]);
 
-const modThree = new FiniteAutomaton(states, inputSymbols, initialState, acceptingStates, transitions)
+const modThree = new FiniteAutomaton(states, inputSymbols, initialState, acceptingStates, transitions);
 
 console.log(modThree.run("110"));
 ```
